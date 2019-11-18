@@ -1,82 +1,98 @@
+let rocketInfo
+let interval2
 let countID
-let totalCardInfo
+let nasaImageData
 let i = 0
 
-const main = () => {
-  getNasaPic()
-  getCard()
-  countID = setInterval(beginCountDown, 1000)
-}
-
-let nasaImageData
-
-const getNasaPic = async () => {
-  console.log('going out to API')
-
+const main = async () => {
   const response = await fetch(
     'https://sdg-astro-api.herokuapp.com/api/Nasa/apod'
   )
-  console.log('back from API')
-  console.log(response)
   nasaImageData = await response.json()
+  getNasaPic()
+  const response2 = await fetch(
+    'https://sdg-astro-api.herokuapp.com/api/SpaceX/launches/upcoming'
+  )
+  rocketInfo = await response2.json()
+  countID = setInterval(beginCountDown, 1000)
+  getCard()
+  advanceCard()
+  console.log(response2)
+  console.log(rocketInfo)
+  console.log(right())
+}
+const advanceCard = () => {
+  interval2 = setTimeout(displayNextMissionCycling, 10000)
+}
+
+const displayNextMissionCycling = () => {
+  right()
+  interval2 = null
+  advanceCard()
+}
+const getNasaPic = () => {
   console.log(getNasaPic)
   const img = document.createElement('img')
   img.src = nasaImageData.url
   document.querySelector('.spaceImage').appendChild(img)
-}
-
-const getCard = async () => {
-  console.log('going out to API')
-  const response = await fetch(
-    'https://sdg-astro-api.herokuapp.com/api/SpaceX/launches/upcoming'
-  )
-  console.log('back from API')
-  console.log(response)
-  totalCardInfo = await response.json()
-  console.log(totalCardInfo)
-  document.querySelector('.line1').textContent = totalCardInfo[i].mission_name
-  document.querySelector('.line2').textContent = totalCardInfo[i].details
-  document.querySelector('.line3').textContent =
-    totalCardInfo[i].launch_date_unix
-  document.querySelector('.line4').textContent = totalCardInfo[i].site_name_long
-  console.log(totalCardInfo)
-  // beginCountDown()
-}
-
-const moveRight = () => {
-  if (i === totalCardInfo.length) {
-    i = 0
-    getCard()
-  } else {
-    i += 1
-    getCard()
-  }
-}
-
-const moveLeft = () => {
-  if (i === 0) {
-    i = totalCardInfo.length
-    getCard()
-  } else {
-    i -= 1
-    getCard()
-  }
+  const theData =
+    'copyright: ' +
+    nasaImageData.copyright +
+    ' | ' +
+    'title: ' +
+    nasaImageData.title
+  document.querySelector('.copyrightText').textContent = theData
 }
 
 const beginCountDown = () => {
-  const unixConversion = totalCardInfo[i].launch_date_unix * 1000
+  const unixConversion = rocketInfo[i].launch_date_unix * 1000
   const now = new Date().getTime()
   const t = unixConversion - now
   const days = Math.floor(t / (1000 * 60 * 60 * 24))
   const hours = Math.floor((t % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
   const minutes = Math.floor((t % (1000 * 60 * 60)) / (1000 * 60))
   const seconds = Math.floor((t % (1000 * 60)) / 1000)
-  document.querySelector('.days').textContent = days
-  document.querySelector('.hours').textContent = hours
-  document.querySelector('.minutes').textContent = minutes
-  document.querySelector('.seconds').textContent = seconds
+  if (days <= 0 && hours <= 0 && minutes <= 0 && seconds <= 0) {
+    document.querySelector('.days').textContent = 'Launched.'
+    document.querySelector('.line3').classList.add('hide')
+  } else {
+    document.querySelector('.line3').classList.remove('hide')
+    document.querySelector('.days').textContent = days
+    document.querySelector('.hours').textContent = hours
+    document.querySelector('.minutes').textContent = minutes
+    document.querySelector('.seconds').textContent = seconds
+  }
 }
 
+const moveLeft = () => {
+  if (i === 0) {
+    i = rocketInfo.length - 1
+    getCard()
+  }
+  i = (i - 1) % rocketInfo.length
+  getCard()
+}
+
+const right = () => {
+  if (i <= rocketInfo.length) {
+    i++
+  } else {
+    i = 0
+  }
+}
+
+const getCard = () => {
+  document.querySelector('.line1').textContent = rocketInfo[i].mission_name
+
+  if (rocketInfo[i].details == null) {
+    document.querySelector('.line2').textContent =
+      'No description available yet.'
+  } else {
+    document.querySelector('.line2').textContent = rocketInfo[i].details
+  }
+  document.querySelector('.line4').textContent =
+    rocketInfo[i].launch_site.site_name_long
+}
 document.addEventListener('DOMContentLoaded', main)
 document.querySelector('.leftPrevious').addEventListener('click', moveLeft)
-document.querySelector('.rightNext').addEventListener('click', moveRight)
+document.querySelector('.rightNext').addEventListener('click', right)
