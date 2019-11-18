@@ -38,8 +38,16 @@ div {
   font-size: 12px;
 }
 
+#largeTitle {
+  font-size: 1.5rem;
+  margin-top: -0.75rem;
+  margin-left: 0.5rem;
+  padding-top: 1rem;
+  width: 100%;
+}
+
 .launchesHeader {
-  background-color: gold;
+  background-color: rgb(255, 193, 7);
   color: black;
   padding: 1.2rem;
   text-align: left;
@@ -83,6 +91,8 @@ div {
   padding: 0 1rem 0.5rem 1rem;
   border-radius: 0.5rem;
   color: black;
+  width: 75%;
+  margin-bottom: 2rem;
 }
 
 .separateCenterText {
@@ -97,7 +107,7 @@ div {
   padding-right: 2rem;
   border-radius: 0rem 1rem 1rem 0rem;
   height: 3rem;
-  background-color: gold;
+  background-color: rgb(255, 193, 7);
   width: 2rem;
   font-size: 2.5rem;
   text-align: center;
@@ -109,10 +119,14 @@ div {
   padding-right: 2rem;
   border-radius: 1rem 0rem 0rem 1rem;
   height: 3rem;
-  background-color: gold;
+  background-color: rgb(255, 193, 7);
   width: 2.5rem;
   font-size: 2rem;
   text-align: center;
+}
+
+button:active {
+  background-color: rgb(103, 58, 183);
 }
 
 .bodyText {
@@ -124,9 +138,14 @@ div {
   padding-bottom: 2rem;
 }
 
+h2 {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
 .sdg {
   color: rgb(203, 203, 204);
-  background-color: rgb(81, 45, 168);
+  background-color: rgb(103, 58, 183);
   padding-top: 2rem;
   padding-bottom: 2rem;
   text-align: center;
@@ -169,6 +188,39 @@ img {
   object-fit: cover;
 }
 
+@media (min-width: 768px) and (max-width: 1024px) {
+  img {
+    height: 400px;
+    width: 100%;
+  }
+
+  .spaceText {
+    position: absolute;
+    top: 22%;
+    left: 100%;
+    transform: translate(-100%, -50%);
+    color: white;
+    font-weight: bold;
+    font-size: 2rem;
+    width: 100%;
+    text-align: center;
+  }
+
+  .contactbtn {
+    font-size: 1.2rem;
+    color: white;
+    white-space: nowrap;
+    text-align: center;
+    text-decoration: underline;
+    margin-top: -2rem;
+    margin-bottom: -1rem;
+    margin-right: 2.7rem;
+    padding-top: 1.5rem;
+    padding-left: 1.5rem;
+    padding-right: 2rem;
+  }
+}
+
 @media (min-width: 1025px) {
   img {
     height: 400px;
@@ -185,5 +237,19 @@ img {
     font-size: 2rem;
     width: 100%;
     text-align: center;
+  }
+
+  .contactbtn {
+    font-size: 1.2rem;
+    color: white;
+    white-space: nowrap;
+    text-align: center;
+    text-decoration: underline;
+    margin-top: -2rem;
+    margin-bottom: -1rem;
+    margin-right: 2.7rem;
+    padding-top: 1.5rem;
+    padding-left: 1.5rem;
+    padding-right: 2rem;
   }
 }
