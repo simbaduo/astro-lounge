@@ -3,7 +3,6 @@ let interval2
 let countID
 let nasaImageData
 let i = 0
-
 const main = async () => {
   const response = await fetch(
     'https://sdg-astro-api.herokuapp.com/api/Nasa/apod'
@@ -14,24 +13,20 @@ const main = async () => {
     'https://sdg-astro-api.herokuapp.com/api/SpaceX/launches/upcoming'
   )
   rocketInfo = await response2.json()
+  displayRocketInfo()
   countID = setInterval(beginCountDown, 1000)
-  getCard()
   advanceCard()
-  console.log(response2)
-  console.log(rocketInfo)
-  console.log(right())
 }
+
 const advanceCard = () => {
   interval2 = setTimeout(displayNextMissionCycling, 10000)
 }
-
 const displayNextMissionCycling = () => {
-  right()
+  buttonRightAdd()
   interval2 = null
   advanceCard()
 }
 const getNasaPic = () => {
-  console.log(getNasaPic)
   const img = document.createElement('img')
   img.src = nasaImageData.url
   document.querySelector('.spaceImage').appendChild(img)
@@ -63,27 +58,23 @@ const beginCountDown = () => {
     document.querySelector('.seconds').textContent = seconds
   }
 }
-
-const moveLeft = () => {
+const buttonLeftSub = () => {
+  console.log('left click')
   if (i === 0) {
     i = rocketInfo.length - 1
-    getCard()
+    displayRocketInfo()
   }
+  // Used Georg's code for this but I don't quite understand the math. If you could leave a comment explaining it, that would be great.
   i = (i - 1) % rocketInfo.length
-  getCard()
+  displayRocketInfo()
 }
-
-const right = () => {
-  if (i <= rocketInfo.length) {
-    i++
-  } else {
-    i = 0
-  }
+const buttonRightAdd = () => {
+  console.log('right clicked')
+  i = (i + 1) % rocketInfo.length
+  displayRocketInfo()
 }
-
-const getCard = () => {
+const displayRocketInfo = () => {
   document.querySelector('.line1').textContent = rocketInfo[i].mission_name
-
   if (rocketInfo[i].details == null) {
     document.querySelector('.line2').textContent =
       'No description available yet.'
@@ -93,6 +84,9 @@ const getCard = () => {
   document.querySelector('.line4').textContent =
     rocketInfo[i].launch_site.site_name_long
 }
+
+console.log({ test: document.querySelector('.left') })
+
 document.addEventListener('DOMContentLoaded', main)
-document.querySelector('.leftPrevious').addEventListener('click', moveLeft)
-document.querySelector('.rightNext').addEventListener('click', right)
+document.querySelector('.left').addEventListener('click', buttonLeftSub)
+document.querySelector('.right').addEventListener('click', buttonRightAdd)

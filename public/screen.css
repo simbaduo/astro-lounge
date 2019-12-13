@@ -1,6 +1,7 @@
 :root {
   font: 16px / 1 sans-serif;
   color: white;
+  /* background-color: rgb(81, 45, 168); */
 }
 
 html {
@@ -22,6 +23,7 @@ body {
   margin-left: -1.5rem;
   margin-top: 0;
   height: 3rem;
+  padding-bottom: 1rem;
   background-color: rgb(81, 45, 168);
 }
 
@@ -49,7 +51,7 @@ div {
 .launchesHeader {
   background-color: rgb(255, 193, 7);
   color: black;
-  padding: 1.2rem;
+  padding: 0.75rem;
   text-align: left;
   margin-top: 0;
 }
@@ -84,6 +86,7 @@ div {
   display: flex;
   justify-content: space-between;
   width: 100%;
+  margin-top: -0.35rem;
 }
 
 .apiBox {
@@ -101,7 +104,7 @@ div {
   /* text-align: center; */
 }
 
-.leftPrevious {
+.left {
   margin-top: 7rem;
   padding-left: 2rem;
   padding-right: 2rem;
@@ -113,7 +116,7 @@ div {
   text-align: center;
 }
 
-.rightNext {
+.right {
   margin-top: 7rem;
   padding-left: 2rem;
   padding-right: 2rem;
@@ -139,8 +142,8 @@ button:active {
 }
 
 h2 {
-  font-size: 2rem;
-  font-weight: bold;
+  font-size: 1.5rem;
+  font-weight: bolder;
 }
 
 .sdg {
@@ -184,6 +187,7 @@ img {
 }
 
 .spaceImage {
+  margin-top: -1rem;
   width: auto;
   object-fit: cover;
 }
